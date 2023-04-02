@@ -41,6 +41,9 @@ object SecondDegreePolynomial:
   val equality: Boolean = pol1 == pol2
   println("Check equals: " + equality)
 
+  val pol3: SecondDegreePolynomial = SecondDegreePolynomial.apply(2.0, 3.0, 10)
+  println("Polynomial with Apply" + pol3)
+
 /** Hints:
   *   - implement SecondDegreePolynomial with a SecondDegreePolynomialImpl class, similar to PersonImpl in slides
   *   - check that equality and toString do not work
