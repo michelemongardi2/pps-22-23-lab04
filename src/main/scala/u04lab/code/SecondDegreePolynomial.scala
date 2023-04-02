@@ -13,7 +13,7 @@ trait SecondDegreePolynomial:
 object SecondDegreePolynomial:
   def apply(secondDegree: Double, firstDegree: Double, constant: Double): SecondDegreePolynomial =
     SecondDegreePolynomialImpl(secondDegree, firstDegree, constant)
-  private class SecondDegreePolynomialImpl(override val secondDegree: Double,
+  private case class SecondDegreePolynomialImpl(override val secondDegree: Double,
                                            override val firstDegree: Double,
                                            override val constant: Double) extends SecondDegreePolynomial:
     override def +(polynomial: SecondDegreePolynomial): SecondDegreePolynomial =
@@ -34,6 +34,12 @@ object SecondDegreePolynomial:
   println((sum, sum.secondDegree, sum.firstDegree, sum.constant)) // 1.0 * X^2 + 1.0 * X + 3.0
   val multipleOperations = fullPolynomial - (anotherPolynomial + simplePolynomial)
   println((multipleOperations, multipleOperations.secondDegree, multipleOperations.firstDegree, multipleOperations.constant)) // 2.0 * X^2 + 1.0 * X + 2.0
+
+  println("Check toString: " + simplePolynomial.toString)
+  val pol1 = SecondDegreePolynomial(1.0, 0, 3)
+  val pol2 = SecondDegreePolynomial(1.0, 0, 3)
+  val equality: Boolean = pol1 == pol2
+  println("Check equals: " + equality)
 
 /** Hints:
   *   - implement SecondDegreePolynomial with a SecondDegreePolynomialImpl class, similar to PersonImpl in slides
