@@ -9,6 +9,9 @@ trait ItemVA {
   def tags: Seq[String]
 }
 
+trait ListFactory:
+  def itemList: Seq[ItemVA]
+
 object ItemVA:
   def apply(code: Int, name: String, tags: String*): ItemVA =
     ItemImplVA(code, name, tags)
@@ -16,6 +19,19 @@ object ItemVA:
   private case class ItemImplVA(override val code: Int,
                                 override val name: String,
                                 override val tags: Seq[String]) extends ItemVA
+
+object ListFactory:
+  def apply(itemList: ItemVA*): ListFactory = ListFactoryImpl(itemList)
+  private case class ListFactoryImpl(override val itemList: Seq[ItemVA]) extends ListFactory:
+    var list: List[ItemVA] = empty
+    for i <- itemList do list = append(list, cons(i, Nil()))
+
+
+object FactoryList:
+  def apply(itemList: ItemVA*): List[ItemVA] =
+    var list: List[ItemVA] = empty
+    for i <- itemList do list = append(list, cons(i, Nil()))
+    list
 
 /**
  * A warehouse is a place where items are stored.
@@ -82,7 +98,8 @@ object WarehouseVA {
   val dellInspiron = ItemVA(34, "Dell Inspiron 13", "notebook")
   val xiaomiMoped = ItemVA(35, "Xiaomi S1", "moped", "mobility")
 
-
+  println()
+  println("**** Exercise 2 with Variable Argument 'String*' ****")
   println(warehouse.contains(dellXps.code)) // false
   println(warehouse.store(dellXps)) // side effect, add dell xps to the warehouse --> Cons(ItemImplVA(33,Dell XPS 15,ArraySeq(notebook)),Nil())
   println(warehouse.contains(dellXps.code)) // true
@@ -94,6 +111,28 @@ object WarehouseVA {
   println(warehouse.retrieve(dellXps.code)) // Some(dellXps)
   println(warehouse.remove(dellXps)) // side effect, remove dell xps from the warehouse
   println(warehouse.retrieve(dellXps.code)) // None
+
+  //OPTIONAL
+
+  val listOfItems = ListFactory(ItemVA(1, "uno", "tagUno"), ItemVA(2, "due", "tagDue"), ItemVA(3, "tre", "tagTre, tagQuattro"))
+  val litsOfItemsEmpty = ListFactory()
+  val litsOfItemsWithMultipleTags = ListFactory(ItemVA(10, "10", "dieci", "venti", "trenta"))
+
+  println()
+  println("**** Factory With New Trait-Object-Private Class ****")
+  println(listOfItems)
+  println(litsOfItemsEmpty)
+  println(litsOfItemsWithMultipleTags)
+
+  val oneEl = FactoryList(ItemVA(99, "novantanove", "tag99"))
+  val twoEl = FactoryList(ItemVA(98, "novantotto", "tag98"), ItemVA(97, "novantasette", "tag97", "tagAggiuntivo"))
+  val emptyEl = FactoryList()
+
+  println()
+  println("**** Factory Optional ****")
+  println(oneEl)
+  println(twoEl)
+  println(emptyEl)
 
 /** Hints:
  * - Implement the Item with a simple case class
