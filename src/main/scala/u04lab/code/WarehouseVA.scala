@@ -55,7 +55,7 @@ object WarehouseVA {
   def apply(): WarehouseVA = WarehouseImplVA()
   private case class WarehouseImplVA() extends WarehouseVA:
 
-    private var itemsList: List[ItemVA] = Nil()
+    private var itemsList: List[ItemVA] = empty
 
     override def store(item: ItemVA): Unit =
       itemsList = append(itemsList, cons(item, empty))
